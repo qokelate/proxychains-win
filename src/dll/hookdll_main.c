@@ -53,14 +53,14 @@ static const size_t g_EntryDetour_cbpRemoteDataOffsetX86 = 0x0;
 static const size_t g_EntryDetour_cbpReturnAddrOffsetX86 = 0x0;
 #endif // !(defined(_M_X64) || defined(__x86_64__)) || !defined(__CYGWIN__)
 
-#ifndef __CYGWIN__
-typedef struct _CLIENT_ID {
-	HANDLE UniqueProcess;
-	HANDLE UniqueThread;
-} CLIENT_ID, * PCLIENT_ID;
-
-typedef LONG KPRIORITY;
-#endif
+//#ifndef __CYGWIN__
+//typedef struct _CLIENT_ID {
+//	HANDLE UniqueProcess;
+//	HANDLE UniqueThread;
+//} CLIENT_ID, * PCLIENT_ID;
+//
+//typedef LONG KPRIORITY;
+//#endif
 
 typedef struct _THREAD_BASIC_INFORMATION
 {
