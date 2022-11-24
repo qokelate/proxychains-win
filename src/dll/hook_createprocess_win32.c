@@ -100,6 +100,12 @@ PROXY_FUNC(CreateProcessW)
 
 	IPCLOGD(L"(In CreateProcessW) g_pRemoteData->dwDebugDepth = " WPRDW, g_pRemoteData ? g_pRemoteData->dwDebugDepth : -1);
 
+	{
+		WCHAR tmp1[16];
+		auto len1 = GetEnvironmentVariableW(L"debug", tmp1, _countof(tmp1));
+		if (!(len1 && L'1' == *tmp1)) dwCreationFlags |= CREATE_NEW_CONSOLE; 
+	}
+
 	bRet = orig_fpCreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags | CREATE_SUSPENDED, lpEnvironment, lpCurrentDirectory, lpStartupInfo, &ProcessInformation);
 	dwLastError = GetLastError();
 

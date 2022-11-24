@@ -16,6 +16,7 @@
  *   version 2 along with this program. If not, see
  *   <http://www.gnu.org/licenses/>.
  */
+#define _CRT_SECURE_NO_WARNINGS 1
 #define PXCH_DO_NOT_INCLUDE_STRSAFE_NOW
 #include "version.h"
 #include "includes_win32.h"
@@ -477,6 +478,25 @@ int main(int argc, char* argv[])
 int wmain(int argc, WCHAR* wargv[])
 #endif
 {
+	{
+		WCHAR tmp1[16];
+		auto len1 = GetEnvironmentVariableW(L"debug", tmp1, _countof(tmp1));
+		while (!(len1 && L'1' == *tmp1))
+		{
+			DWORD pid;
+			auto h1 = GetConsoleWindow();
+			GetWindowThreadProcessId(h1, &pid);
+			if (GetCurrentProcessId() == pid) ShowWindow(h1, SW_HIDE);
+
+			auto f = freopen("nul", "wb", stdout);  // reopen stdout handle as console window output
+			if (f == NULL) f = freopen("nul", "w", stdout);   // reopen stdout handle as console window output
+			freopen("nul", "wb", stderr);    // reopen stderr handle as console window output
+			freopen("nul", "rb", stdin);      // reopen stdin handle as console window input
+			setvbuf(stdout, NULL, _IONBF, 0);
+			break;
+		}
+	}
+
 	DWORD dwError;
 	DWORD dwTid;
 	STARTUPINFO startupInfo = { 0 };
